@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walkie-Talkie</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="walkie-device">
+            <!-- Header -->
+            <div class="device-header">
+                <div class="brand">WALKIE-TALKIE</div>
+                <div class="model">PTT-2000</div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="status-item">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span class="status-label" id="statusText">OFFLINE</span>
+                </div>
+                <div class="status-item">
+                    <span class="users-icon">👥</span>
+                    <span class="users-count" id="peersCount">0</span>
+                </div>
+            </div>
+
+            <!-- Channel Display -->
+            <div class="channel-display">
+                <div class="display-label">CHANNEL SELECTOR</div>
+                <div class="channel-dials">
+                    <div class="dial-container">
+                        <div class="dial-scroll" id="dial1" data-value="0">
+                            <div class="dial-digit">9</div>
+                            <div class="dial-digit">0</div>
+                            <div class="dial-digit">1</div>
+                        </div>
+                    </div>
+                    <div class="dial-container">
+                        <div class="dial-scroll" id="dial2" data-value="0">
+                            <div class="dial-digit">9</div>
+                            <div class="dial-digit">0</div>
+                            <div class="dial-digit">1</div>
+                        </div>
+                    </div>
+                    <div class="dial-container">
+                        <div class="dial-scroll" id="dial3" data-value="0">
+                            <div class="dial-digit">9</div>
+                            <div class="dial-digit">0</div>
+                            <div class="dial-digit">1</div>
+                        </div>
+                    </div>
+                    <div class="dial-container">
+                        <div class="dial-scroll" id="dial4" data-value="0">
+                            <div class="dial-digit">9</div>
+                            <div class="dial-digit">0</div>
+                            <div class="dial-digit">1</div>
+                        </div>
+                    </div>
+                    <div class="dial-container">
+                        <div class="dial-scroll" id="dial5" data-value="0">
+                            <div class="dial-digit">9</div>
+                            <div class="dial-digit">0</div>
+                            <div class="dial-digit">1</div>
+                        </div>
+                    </div>
+                </div>
+                <button id="resetBtn" class="reset-btn">RESET</button>
+                <div class="channel-info" id="roomInfo"></div>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="controls">
+                <button id="joinBtn" class="control-btn join-btn">JOIN CHANNEL</button>
+                <button id="rejoinBtn" class="control-btn rejoin-btn" style="display:none;">REJOIN</button>
+            </div>
+
+            <!-- VU Meter -->
+            <div class="vu-meter-panel">
+                <canvas id="vuGauge" width="280" height="120"></canvas>
+            </div>
+
+            <!-- Incoming Transmission Indicator -->
+            <div id="incomingIndicator" class="rx-indicator">
+                <span class="rx-light"></span>
+                <span class="rx-text">RECEIVING</span>
+            </div>
+
+            <!-- PTT Button -->
+            <div class="ptt-container">
+                <button id="pttButton" class="ptt-button" disabled>
+                    <div class="ptt-inner">
+                        <div class="ptt-label">PUSH TO TALK</div>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Peers Panel -->
+            <div class="peers-panel">
+                <div class="peers-header">ACTIVE USERS</div>
+                <ul id="peersListItems" class="peers-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="remoteAudioContainer" style="position:absolute; left:-9999px; top:-9999px;"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="bundle.js"></script>
+</body>
+</html>
