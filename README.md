@@ -68,57 +68,145 @@ npm run dev
 - Share your channel code with others to communicate
 - Use the "REJOIN" button to quickly reconnect to your last channel
 
-## Deployment
+## 🚢 Deployment
 
-### Render
+### Render (Recommended)
 
-1. Create a `render.yaml` configuration
-2. Set environment variables (ANNOUNCED_IP for your server's public IP)
-3. Deploy via Render dashboard or CLI
+The app is configured for one-click deployment to Render:
+
+1. **Push to GitHub** (already done)
+2. **Connect to Render:**
+   - Visit [dashboard.render.com](https://dashboard.render.com)
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+   - Render will auto-detect `render.yaml`
+3. **Deploy** - Click "Create Web Service"
+
+The app will automatically:
+- Install dependencies
+- Build the webpack bundle
+- Start the server
+- Provide a live URL
 
 ### Docker
 
-1. Build the image:
-```bash
-docker build -t walkietalkie .
-```
+Build and run using Docker:
 
-2. Run the container:
 ```bash
+# Build the image
+docker build -t walkietalkie .
+
+# Run the container
 docker run -p 3000:3000 walkietalkie
 ```
 
-## Environment Variables
+### Manual Deployment
 
-- `PORT`: Server port (default: 3000)
-- `ANNOUNCED_IP`: Public IP address for WebRTC (required for production)
- - `MEDIASOUP_LISTEN_IPS`: JSON array of listen IP objects, e.g. `[{"ip":"0.0.0.0","announcedIp":"203.0.113.10"}]`
- - `MEDIASOUP_ENABLE_UDP`: Set to `false` to disable UDP (default: true)
- - `MEDIASOUP_ENABLE_TCP`: Set to `true` to allow TCP fallback (default: false)
- - `MEDIASOUP_PREFER_UDP`: Prefer UDP when both available (default: true)
- - `MEDIASOUP_MIN_PORT` / `MEDIASOUP_MAX_PORT`: Optional port range to constrain RTP/RTCP (e.g. 40000 / 40100)
+For VPS or other platforms:
 
-### STUN / TURN Considerations
+```bash
+# Install dependencies
+npm install
 
-Mediasoup acts as an ICE-Lite server. You do not configure traditional `iceServers` in the client; instead:
+# Build client bundle
+npm run build
 
-1. Ensure `ANNOUNCED_IP` is set to the **public** IP (or use multiple in `MEDIASOUP_LISTEN_IPS`).
-2. Open the selected UDP (and optionally TCP) ports in your firewall.
-3. For very restrictive enterprise or carrier-grade NATs, a separate TURN server (e.g. coturn) can be deployed. TURN does not get referenced directly in this code; instead you would terminate TURN traffic and route it to the SFU at the network layer or deploy the SFU on public IP/port 443 UDP/TCP to maximize reachability.
-4. Enable TCP fallback (`MEDIASOUP_ENABLE_TCP=true`) so clients behind blocked UDP can still connect, albeit with higher latency.
-
-Example production `.env`:
-```
-PORT=3000
-ANNOUNCED_IP=203.0.113.10
-MEDIASOUP_LISTEN_IPS=[{"ip":"0.0.0.0","announcedIp":"203.0.113.10"}]
-MEDIASOUP_ENABLE_TCP=true
-MEDIASOUP_MIN_PORT=40000
-MEDIASOUP_MAX_PORT=40100
+# Start server (use PM2 or similar for production)
+NODE_ENV=production node server.js
 ```
 
-If you add a TURN server for edge cases, keep its credentials out of this repo and document it operationally; mediasoup itself will still advertise its ICE candidates via the server transports configured above.
+## ⚙️ Configuration
 
-## License
+### Environment Variables
 
-MIT
+- `PORT` - Server port (default: 3000)
+- `NODE_ENV` - Environment mode (development/production)
+
+### Network Requirements
+
+- **WebRTC Capable Browser** - Chrome, Firefox, Edge, Safari
+- **HTTPS** - Required for microphone access in production
+- **WebSocket Support** - For Socket.IO communication
+
+### Browser Permissions
+
+Users must grant microphone access when prompted to use PTT functionality.
+
+## 🏗️ Architecture
+
+### Audio Flow
+```
+User Mic → MediaRecorder (Opus/WebM) → Socket.IO → Server → Socket.IO → Other Users → Web Audio API → Speaker
+```
+
+### Key Components
+
+- **Client-Side:**
+  - MediaRecorder API for audio capture
+  - Web Audio API for playback and VU metering
+  - Canvas for visual feedback
+  - Socket.IO client for real-time communication
+
+- **Server-Side:**
+  - Express for HTTP serving
+  - Socket.IO for WebSocket signaling
+  - Room-based audio relay
+  - Peer management
+
+### Performance
+
+- **Audio Codec:** Opus (optimized for speech)
+- **Sample Rate:** 48kHz
+- **Bitrate:** Adaptive (typically 24-32 kbps)
+- **Latency:** 30-90ms end-to-end
+- **Timeslice:** 10ms chunks for smooth encoding
+
+## 🎨 UI Features
+
+- **Scrollable Channel Dials** - Vintage roller-style digit selection
+- **Analog VU Meter** - Needle gauge with color zones (green/yellow/red)
+- **Status Indicators** - Connection status and channel info
+- **Peer List** - See who's in your channel
+- **Responsive Design** - Optimized for mobile and desktop
+- **PTT Locking** - Only one person can talk at a time
+
+## 🔧 Technical Details
+
+### Audio Optimization
+- High-quality 48kHz sampling for clarity
+- Opus codec for efficient compression
+- Echo cancellation and noise suppression enabled
+- Automatic gain control for consistent levels
+
+### Mobile Enhancements
+- Automatic speaker routing (loudspeaker)
+- Volume boost for outdoor use
+- Touch-optimized PTT button
+- Full-height viewport optimization
+
+### Browser Support
+- ✅ Chrome/Edge (88+)
+- ✅ Firefox (78+)
+- ✅ Safari (14+)
+- ✅ Mobile browsers (iOS Safari, Chrome Android)
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest features
+- Submit pull requests
+
+## 📝 License
+
+MIT License - See LICENSE file for details
+
+## 🙏 Acknowledgments
+
+Built with modern web technologies for real-time voice communication. Inspired by classic walkie-talkie design and functionality.
+
+---
+
+**Made with ❤️ for instant communication**
+
+````
