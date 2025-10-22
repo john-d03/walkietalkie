@@ -178,4 +178,4 @@ MIT License. Refer to the LICENSE file for details.
 
 ## Acknowledgments
 
-Developed using modern web technologies for seamless voice communication. Inspired by the design and simplicity of classic walkie-talkies.
+Inspired by the design and simplicity of classic walkie-talkies.
