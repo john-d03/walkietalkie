@@ -1,51 +1,72 @@
-# Walkie-Talkie App
+````markdown
+# 📻 Walkie-Talkie Web App
 
-A real-time, browser-based walkie-talkie application with push-to-talk audio communication.
+A real-time, browser-based walkie-talkie application with push-to-talk audio communication. Connect instantly with others through 5-digit channel codes for crystal-clear voice communication.
 
-## Features
+## ✨ Features
 
-- 🎙️ Push-to-talk audio communication
-- 🚀 Real-time streaming with minimal latency
-- 🏠 Room-based grouping
-- 📱 Cross-platform (desktop, mobile, tablet)
-- 🔒 Secure communication (HTTPS ready)
-- 👥 Supports up to 15 concurrent users per room
+- 🎙️ **Push-to-Talk (PTT)** - Press and hold to transmit, release to listen
+- ⚡ **Low Latency** - Near real-time audio streaming (~30-90ms)
+- 📡 **Channel-Based** - Connect via 5-digit channel codes (00001-99999)
+- 📊 **VU Meter** - Visual audio level indicator for both transmit and receive
+- � **Mobile Speaker Output** - Automatic speakerphone routing on mobile devices
+- � **Multi-User** - See who's connected and talking in real-time
+- 🎨 **Vintage Design** - Retro walkie-talkie inspired interface
+- 📱 **Responsive** - Works on desktop, tablets, and mobile devices
+- 🔐 **Simple & Secure** - No login required, just join a channel
 
-## Technology Stack
+## 🛠️ Technology Stack
 
-- **Frontend**: HTML, CSS, JavaScript, WebRTC, Socket.io Client, mediasoup-client
-- **Backend**: Node.js, Express, Socket.io, mediasoup SFU
+- **Frontend**: Vanilla JavaScript, HTML5, CSS3, Web Audio API, MediaRecorder API
+- **Backend**: Node.js, Express, Socket.IO
+- **Audio**: Opus codec via WebM containers, 48kHz sample rate
+- **Build**: Webpack, Babel
 
-## Installation
+## 🚀 Quick Start
 
-1. Install dependencies:
+### Local Development
+
+1. **Install dependencies:**
 ```bash
 npm install
 ```
 
-2. Start the server:
+2. **Build the client bundle:**
+```bash
+npm run build
+```
+
+3. **Start the server:**
 ```bash
 npm start
 ```
 
-3. Open your browser and navigate to:
+4. **Open your browser:**
 ```
 http://localhost:3000
 ```
 
-## Development
+### Development Mode
 
-Run in development mode with auto-restart:
+Run with auto-restart on file changes:
 ```bash
 npm run dev
 ```
 
-## Usage
+## 📖 How to Use
 
-1. Enter a room code in the input field
-2. Click "Join Room" to connect
-3. Press and hold the PTT button to speak
-4. Release the button to stop transmitting
+1. **Select a Channel** - Use the scrollable dials to choose a 5-digit channel code
+2. **Join Channel** - Click the "JOIN CHANNEL" button
+3. **Talk** - Press and hold the red PTT button to transmit
+4. **Listen** - Release the button to hear others
+5. **Monitor** - Watch the VU meter for audio levels
+6. **Leave** - Click "LEAVE CHANNEL" or use the Reset button
+
+### Channel Tips
+- Channel `00000` is inactive (blocked)
+- Use any code from `00001` to `99999`
+- Share your channel code with others to communicate
+- Use the "REJOIN" button to quickly reconnect to your last channel
 
 ## Deployment
 
